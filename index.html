@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Unique Generator</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="box">
+    <h2>Unique Generator</h2>
+
+    <div class="row">
+        <input type="text" id="username" readonly placeholder="Username">
+        <button onclick="copyText('username')">Copy</button>
+    </div>
+
+    <div class="row">
+        <input type="text" id="password" readonly>
+        <button onclick="copyText('password')">Copy</button>
+    </div>
+
+    <button class="generate" onclick="generateUnique()">Generate Name</button>
+
+    <p class="count">Generated: <span id="total">0</span></p>
+</div>
+
+<audio id="copySound" src="copy.mp3"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
