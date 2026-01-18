@@ -1,62 +1,38 @@
-// ===== RANDOM BOYS NAME GENERATOR (200K+ POSSIBILITIES) =====
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Email Generator</title>
+</head>
+<body>
 
-const start = [
-  "ra","ro","vi","ka","ar","an","sa","ni","mo","de",
-  "su","pa","la","ha","ma","ta","ya","aj","ak","am"
-];
+<h3>Email Generator (only small letters)</h3>
 
-const mid = [
-  "h","r","n","v","m","t","s","l","k","y","j","d"
-];
+<input type="text" id="name" placeholder="Enter name">
+<button onclick="generateEmail()">Generate Email</button>
 
-const end = [
-  "ul","it","an","esh","av","ay","in","er","al","at",
-  "ar","on","am","as","ik"
-];
+<p id="result"></p>
 
-const FIXED_PASSWORD = "Santosh@8757#$";
-const usedNames = new Set();
-let count = 0;
-
-document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("password").value = FIXED_PASSWORD;
-});
-
-function randomName(){
-  const a = start[Math.floor(Math.random()*start.length)];
-  const b = mid[Math.floor(Math.random()*mid.length)];
-  const c = end[Math.floor(Math.random()*end.length)];
-  let name = a + b + c;
-  return name.charAt(0).toUpperCase() + name.slice(1);
+<script>
+function cleanMailName(text) {
+  return text
+    .toLowerCase()        // only small letters
+    .replace(/[^a-z]/g, ""); // remove numbers & symbols
 }
 
-function generateUnique(){
-  let username;
+function generateEmail() {
+  let name = document.getElementById("name").value;
 
-  do{
-    const name = randomName();
-    const digits = Math.floor(10000 + Math.random() * 90000); // 5 digits
-    username = name + digits;
-  } while(usedNames.has(username));
+  if (name === "") {
+    alert("Name enter karo");
+    return;
+  }
 
-  usedNames.add(username);
-  count++;
+  let email = cleanMailName(name) + "@gmail.com";
 
-  const input = document.getElementById("username");
-  input.value = username;
-  input.classList.remove("copied");
-
-  document.getElementById("total").innerText = count;
+  document.getElementById("result").innerText = "Generated Email: " + email;
 }
+</script>
 
-function copyText(id){
-  const input = document.getElementById(id);
-  if(!input.value) return;
-
-  navigator.clipboard.writeText(input.value);
-  input.classList.add("copied");
-
-  const sound = document.getElementById("copySound");
-  sound.currentTime = 0;
-  sound.play();
-}
+</body>
+</html>
