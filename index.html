@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Mail Name Generator</title>
+<title>Random Account Generator</title>
 
 <style>
 body{
@@ -19,28 +19,19 @@ body{
   background:#fff;
   padding:25px;
   width:100%;
-  max-width:360px;
+  max-width:380px;
   border-radius:10px;
   box-shadow:0 10px 25px rgba(0,0,0,0.1);
-  text-align:center;
 }
 
 h2{
+  text-align:center;
   margin-bottom:15px;
 }
 
-input{
+button.generate{
   width:100%;
-  padding:10px;
-  margin-bottom:12px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:15px;
-}
-
-button{
-  width:100%;
-  padding:10px;
+  padding:12px;
   background:#007bff;
   color:#fff;
   border:none;
@@ -49,15 +40,37 @@ button{
   cursor:pointer;
 }
 
-button:hover{
+button.generate:hover{
   background:#0056b3;
 }
 
-.result{
+.field{
+  display:flex;
+  align-items:center;
   margin-top:15px;
-  font-weight:bold;
-  color:#333;
-  word-break:break-all;
+}
+
+.field input{
+  flex:1;
+  padding:10px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:14px;
+}
+
+.field button{
+  margin-left:8px;
+  padding:10px 12px;
+  background:#28a745;
+  border:none;
+  color:#fff;
+  border-radius:6px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.field button:hover{
+  background:#1e7e34;
 }
 </style>
 </head>
@@ -65,44 +78,47 @@ button:hover{
 <body>
 
 <div class="box">
-  <h2>Mail Name Generator</h2>
+  <h2>Random Account Generator</h2>
 
-  <input type="text" id="fname" placeholder="Enter first name">
-  <button onclick="generateMailName()">Generate</button>
+  <button class="generate" onclick="generateAccount()">Generate</button>
 
-  <div class="result" id="result"></div>
+  <div class="field">
+    <input type="text" id="mailName" readonly placeholder="Mail Name">
+    <button onclick="copyText('mailName')">Copy</button>
+  </div>
+
+  <div class="field">
+    <input type="text" id="password" readonly placeholder="Password">
+    <button onclick="copyText('password')">Copy</button>
+  </div>
 </div>
 
 <script>
-function cleanFirstName(text){
-  return text
-    .toLowerCase()          // small letters only
-    .replace(/[^a-z]/g,""); // remove numbers & symbols
-}
+const boyNames = [
+  "sawan","rahul","amit","rohit","vikas",
+  "ajay","santosh","deepak","manoj","sunil",
+  "ankit","ravi","arjun","pankaj","kiran"
+];
 
-function randomFiveDigits(){
+function randomFiveDigit(){
   return Math.floor(10000 + Math.random() * 90000);
 }
 
-function generateMailName(){
-  let fname = document.getElementById("fname").value.trim();
+function generateAccount(){
+  let name = boyNames[Math.floor(Math.random() * boyNames.length)];
+  let mailName = name + randomFiveDigit();
+  let password = "Santosh@8757#$";
 
-  if(fname === ""){
-    alert("First name enter karo");
-    return;
-  }
+  document.getElementById("mailName").value = mailName;
+  document.getElementById("password").value = password;
+}
 
-  let cleanName = cleanFirstName(fname);
-
-  if(cleanName === ""){
-    alert("Sirf letters use karo");
-    return;
-  }
-
-  let mailName = cleanName + randomFiveDigits();
-
-  document.getElementById("result").innerText =
-    "Mail Name: " + mailName;
+function copyText(id){
+  let input = document.getElementById(id);
+  input.select();
+  input.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(input.value);
+  alert("Copied: " + input.value);
 }
 </script>
 
