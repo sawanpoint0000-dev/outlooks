@@ -2,31 +2,109 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Unique Generator</title>
-<link rel="stylesheet" href="style.css">
+<title>Mail Name Generator</title>
+
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:#eef2f5;
+  font-family:Arial, sans-serif;
+}
+
+.box{
+  background:#fff;
+  padding:25px;
+  width:100%;
+  max-width:360px;
+  border-radius:10px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  text-align:center;
+}
+
+h2{
+  margin-bottom:15px;
+}
+
+input{
+  width:100%;
+  padding:10px;
+  margin-bottom:12px;
+  border:1px solid #ccc;
+  border-radius:6px;
+  font-size:15px;
+}
+
+button{
+  width:100%;
+  padding:10px;
+  background:#007bff;
+  color:#fff;
+  border:none;
+  border-radius:6px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#0056b3;
+}
+
+.result{
+  margin-top:15px;
+  font-weight:bold;
+  color:#333;
+  word-break:break-all;
+}
+</style>
 </head>
+
 <body>
 
 <div class="box">
-    <h2>Unique Generator</h2>
+  <h2>Mail Name Generator</h2>
 
-    <div class="row">
-        <input type="text" id="username" readonly placeholder="Username">
-        <button onclick="copyText('username')">Copy</button>
-    </div>
+  <input type="text" id="fname" placeholder="Enter first name">
+  <button onclick="generateMailName()">Generate</button>
 
-    <div class="row">
-        <input type="text" id="password" readonly placeholder="Password">
-        <button onclick="copyText('password')">Copy</button>
-    </div>
-
-    <button class="generate" onclick="generateUnique()">Generate Name</button>
-
-    <p class="count">Generated: <span id="total">0</span></p>
+  <div class="result" id="result"></div>
 </div>
 
-<audio id="copySound" src="copy.mp3"></audio>
+<script>
+function cleanFirstName(text){
+  return text
+    .toLowerCase()          // small letters only
+    .replace(/[^a-z]/g,""); // remove numbers & symbols
+}
 
-<script src="script.js"></script>
+function randomFiveDigits(){
+  return Math.floor(10000 + Math.random() * 90000);
+}
+
+function generateMailName(){
+  let fname = document.getElementById("fname").value.trim();
+
+  if(fname === ""){
+    alert("First name enter karo");
+    return;
+  }
+
+  let cleanName = cleanFirstName(fname);
+
+  if(cleanName === ""){
+    alert("Sirf letters use karo");
+    return;
+  }
+
+  let mailName = cleanName + randomFiveDigits();
+
+  document.getElementById("result").innerText =
+    "Mail Name: " + mailName;
+}
+</script>
+
 </body>
 </html>
