@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Random Account Generator</title>
+<title>Indian Mail Generator</title>
 
 <style>
 body{
@@ -12,24 +12,17 @@ body{
   justify-content:center;
   align-items:center;
   background:#eef2f5;
-  font-family:Arial, sans-serif;
+  font-family:Arial;
 }
-
 .box{
   background:#fff;
   padding:25px;
-  width:100%;
-  max-width:380px;
+  width:380px;
   border-radius:10px;
-  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+  box-shadow:0 10px 25px rgba(0,0,0,.1);
 }
-
-h2{
-  text-align:center;
-  margin-bottom:15px;
-}
-
-button.generate{
+h2{text-align:center}
+button{
   width:100%;
   padding:12px;
   background:#007bff;
@@ -39,38 +32,19 @@ button.generate{
   font-size:16px;
   cursor:pointer;
 }
-
-button.generate:hover{
-  background:#0056b3;
-}
-
 .field{
   display:flex;
-  align-items:center;
   margin-top:15px;
 }
-
 .field input{
   flex:1;
   padding:10px;
-  border:1px solid #ccc;
-  border-radius:6px;
-  font-size:14px;
 }
-
 .field button{
   margin-left:8px;
-  padding:10px 12px;
   background:#28a745;
   border:none;
   color:#fff;
-  border-radius:6px;
-  cursor:pointer;
-  font-size:14px;
-}
-
-.field button:hover{
-  background:#1e7e34;
 }
 </style>
 </head>
@@ -78,44 +52,75 @@ button.generate:hover{
 <body>
 
 <div class="box">
-  <h2>Random Account Generator</h2>
+<h2>Indian Mail Generator</h2>
 
-  <button class="generate" onclick="generateAccount()">Generate</button>
+<button onclick="generateAccount()">Generate</button>
 
-  <div class="field">
-    <input type="text" id="mailName" readonly placeholder="Mail Name">
-    <button onclick="copyText('mailName')">Copy</button>
-  </div>
+<div class="field">
+  <input id="mailName" readonly placeholder="Mail Name">
+  <button onclick="copyText('mailName')">Copy</button>
+</div>
 
-  <div class="field">
-    <input type="text" id="password" readonly placeholder="Password">
-    <button onclick="copyText('password')">Copy</button>
-  </div>
+<div class="field">
+  <input id="password" readonly placeholder="Password">
+  <button onclick="copyText('password')">Copy</button>
+</div>
 </div>
 
 <script>
-const boyNames = [
-  "sawan","rahul","amit","rohit","vikas",
-  "ajay","santosh","deepak","manoj","sunil",
-  "ankit","ravi","arjun","pankaj","kiran"
+/* 🔹 INDIAN NAME PARTS */
+const firstParts = [
+"ra","sa","vi","an","ar","ni","su","ma","ka","ro",
+"de","mo","pa","ya","la","ta","na","ha","ji","ki"
 ];
 
-function randomFiveDigit(){
-  return Math.floor(10000 + Math.random() * 90000);
+const lastParts = [
+"pat","ver","sha","sin","cha","mal","raj","kar","das","lal",
+"gu","ban","kap","jain","mit","dev","pal","she","thi","nar"
+];
+
+/* 🔹 CREATE 100000 INDIAN MAIL BASE NAMES */
+let allNames = [];
+for(let i=0;i<firstParts.length;i++){
+  for(let j=0;j<lastParts.length;j++){
+    allNames.push(firstParts[i] + lastParts[j]);
+  }
+}
+
+/* ensure 100k+ */
+let expanded = [];
+let count = 1;
+while(expanded.length < 100000){
+  for(let n of allNames){
+    expanded.push(n + count);
+    if(expanded.length >= 100000) break;
+  }
+  count++;
+}
+
+let used = JSON.parse(localStorage.getItem("usedIndian")) || [];
+let available = expanded.filter(n => !used.includes(n));
+
+function random6Digit(){
+  return Math.floor(100000 + Math.random()*900000);
 }
 
 function generateAccount(){
-  let name = boyNames[Math.floor(Math.random() * boyNames.length)];
-  let mailName = name + randomFiveDigit();
-  let password = "Santosh@8757#$";
+  if(available.length === 0){
+    alert("100000 Indian mail names complete ✅");
+    return;
+  }
 
-  document.getElementById("mailName").value = mailName;
-  document.getElementById("password").value = password;
+  let name = available.shift();
+  used.push(name);
+  localStorage.setItem("usedIndian", JSON.stringify(used));
+
+  document.getElementById("mailName").value = name + random6Digit();
+  document.getElementById("password").value = "Santosh@8757#$";
 }
 
 function copyText(id){
-  let input = document.getElementById(id);
-  navigator.clipboard.writeText(input.value);
+  navigator.clipboard.writeText(document.getElementById(id).value);
 }
 </script>
 
