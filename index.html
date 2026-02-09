@@ -62,9 +62,15 @@ button{
 </div>
 
 <div class="field">
-  <input id="password" readonly placeholder="Password">
-  <button onclick="copyText('password')">Copy</button>
+  <input id="password1" readonly placeholder="Password 1">
+  <button onclick="copyText('password1')">Copy</button>
 </div>
+
+<div class="field">
+  <input id="password2" readonly placeholder="Password 2 (Fixed)">
+  <button onclick="copyText('password2')">Copy</button>
+</div>
+
 </div>
 
 <script>
@@ -116,7 +122,8 @@ function generateAccount(){
   localStorage.setItem("usedIndian", JSON.stringify(used));
 
   document.getElementById("mailName").value = name + random6Digit();
-  document.getElementById("password").value = "Santosh@8757#$";
+  document.getElementById("password1").value = "Santosh@8757#$";
+  document.getElementById("password2").value = "India@123";
 }
 
 function copyText(id){
@@ -126,5 +133,3 @@ function copyText(id){
 
 </body>
 </html>
-
-
